@@ -15,6 +15,7 @@ void readFile(int rows, int columns, int photo2DArray[ROWS][COLUMNS]);//edit pro
 int main() {
 	int photo2DArray[ROWS][COLUMNS];
 	getMenuChoice();
+	brightnessConversion();
 	readFile(ROWS,COLUMNS, photo2DArray);
 	return 0;
 }
@@ -22,7 +23,6 @@ int main() {
 int getMenuChoice(){
 	int userInput;
 	
-
 	printf("0. Load New Image\n");
 	printf("1. Display current image\n");
 	printf("2. Edit the current image\n");
@@ -35,7 +35,39 @@ int getMenuChoice(){
 }
 
 int brightnessConversion(){
-
+	char brightnessArray[ROWS][COLUMNS] = {0};
+	int photo2DArray[ROWS][COLUMNS] = {0};
+	for(int iRows = 0; iRows < ROWS; iRows++){
+		for(int iCols = 0; iCols < COLUMNS; iCols++){
+		photo2DArray[iRows][iCols] = 1;
+		}
+	}
+	for(int iRows = 0; iRows < ROWS; iRows++){
+		for(int iCols = 0; iCols < COLUMNS; iCols++){
+			if (photo2DArray[iRows][iCols] == 0){
+				brightnessArray[iRows][iCols] = ' ';
+			}
+			else if (photo2DArray[iRows][iCols] == 1){
+				brightnessArray[iRows][iCols] = '.';
+			}
+			else if (photo2DArray[iRows][iCols] == 2){
+				brightnessArray[iRows][iCols] = 'o';
+			}
+			else if (photo2DArray[iRows][iCols] == 3){
+				brightnessArray[iRows][iCols] = 'O';
+			}
+			else if (photo2DArray[iRows][iCols] == 4){
+				brightnessArray[iRows][iCols] = '0';
+			}
+		}
+		
+	}
+	for(int iRows = 0; iRows < ROWS; iRows++){
+		for(int iCols = 0; iCols < COLUMNS; iCols++){
+		printf("%c", brightnessArray[iRows][iCols]);
+		}
+		printf("\n");
+	}	
 }
 void readFile(int rows, int columns, int photo2DArray[rows][columns]){//need to add pointers to be able to add the photo2DArray variable to others functions
 		int inFuncArray[ROWS][COLUMNS];
