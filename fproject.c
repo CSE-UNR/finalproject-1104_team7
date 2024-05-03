@@ -4,46 +4,31 @@
 
 #define READ_FILE_NAME "numbers.txt"
 #define SIZE 100
-#define ROWS 5
-#define COLUMNS 5
+#define ROWS 500
+#define COLUMNS 500
 #define ROW 0
 #define COL 0
 
 #include <stdio.h>
 
-void getMenuChoice();
+int getMenuChoice();
 void readFile(int rows, int columns, int photo2DArray[][columns], char *file, int *rowPtr, int* colPtr);
 void displayImage(int rows, int columns, int photo2DArray[][columns], int rowCount, int colCount);
 void editImageMenu();
 
 int main() {
-	int rowCount, colCount;
-	
-	getMenuChoice();
-	//readFile(ROWS, COLUMNS, photo2DArray, fileName, &rowCount, &colCount);
-	
-	return 0;
-}
-
-void getMenuChoice(){
 	int photo2DArray[ROWS][COLUMNS]={0};
 	char fileName[SIZE];
 	int brightnessArray[ROWS][COLUMNS];
-	int userInput;
 	int rowCount, colCount;
+	int userInput;
+	
 	
 	do{
-		printf("**ERINSTAGRAM**\n");
-		printf("0. Load New Image\n");
-		printf("1. Display current image\n");
-		printf("2. Edit the current image\n");
-		printf("3. Exit\n");
-		printf("Choose from one of the options above: " );
-		scanf("%d", &userInput);
-	
-		switch(userInput){
+	userInput = getMenuChoice();
+	switch(userInput){
 			case 0:
-				printf("What is the name of the image file: ", &userInput);
+				printf("What is the name of the image file: ");
 				scanf("%s", fileName);
 				readFile(ROWS, COLUMNS, photo2DArray, fileName, &rowCount, &colCount);
 				
@@ -64,13 +49,30 @@ void getMenuChoice(){
 		}	
 	}while(userInput != 3);
 
+	return 0;
+}
+	//readFile(ROWS, COLUMNS, photo2DArray, fileName, &rowCount, &colCount);
+	
+
+
+int getMenuChoice(){
+	
+	int userInput;
+		printf("**ERINSTAGRAM**\n");
+		printf("0. Load New Image\n");
+		printf("1. Display current image\n");
+		printf("2. Edit the current image\n");
+		printf("3. Exit\n");
+		printf("Choose from one of the options above: " );
+		scanf("%d", &userInput);
+	return userInput;
 }
 
 void readFile(int rows, int columns, int photo2DArray[][columns], char *file, int *rowPtr, int* colPtr){ 
-		//int inFuncArray[rows][columns];
-		//int iRows;
-		//int iCols;
-		int index = 0, colCount = 0;
+		char inFuncArray[rows][columns];
+		int iRows = 0;
+		int iCols = 0;
+		int rowCount = 0, colCount = 0;
 
 		FILE* fp; 
 		fp = fopen(file, "r");
@@ -78,34 +80,40 @@ void readFile(int rows, int columns, int photo2DArray[][columns], char *file, in
 			printf("File did not open\n");
 		}
 		else{
-			//for(int iRows = 0; iRows < rows; iRows++){
-				//for(int iCols = 0; iCols < columns; iCols++){
-					//while(fscanf(fp,"%c",inFuncArray[iRows][iCols]==1)){
-					//fscanf(fp,"%c",inFuncArray[iRows][iCols]);
-					
-					//}
-					//photo2DArray[iRows][iCols] = inFuncArray[iRows][iCols];
-				//}
 			
-			//}
-			while(fscanf(fp, "%d", &photo2DArray[index][COL]) == 1){
-				index++;
-			//while(fscanf(fp, "%c", &photo2DArray[ROW][colCount]) == 1){
-				//colCount++;
+			//for(int iRows = 0; iRows < rowCount; iRows++){
+			//	for(int iCols = 0; iCols < colCount; iCols++){
+			//		fscanf(fp,"%d",&photo2DArray[iRows][iCols]);
+					//printf("%d",photo2DArray[iRows][iCols]);
+			//	}
+			//printf("\n");
+			
+			
+			while(fscanf(fp,"%c", &inFuncArray[iRows][iCols]) == 1){
+			if(inFuncArray[iRows][iCols] != ' '){
+				if(inFuncArray[iRows][iCols] == '\n'){
+				iRows++;
+				colCount = iCols - 1;
+				printf("colCount is now %d. iRows is now %d.\n", colCount, iRows);
+				iCols = 0;
+				}
+				iCols++;
+				}
+				
 			}
-			//}
-			printf("%d", index);
+			printf("colCount is now %d. iRows is now %d.\n", colCount, iRows);
+			//printf("%d", rowCount);
 			
 		}
-		//*rowPtr = rowCount;
+		//*rowPtr = iRows;
 		//*colPtr = colCount;
-		//printf("%d\n", colCount);
-		//printf("%d\n", rowCount);
+		printf("%d------\n", colCount);
+		printf("%d\n", iRows);
 		//for(int iRows = 0; iRows <= rowCount; iRows++){
 		//		for(int iCols = 0; iCols <= colCount; iCols++){
 		//		printf("%d", photo2DArray[iRows][iCols]);
 		//		}
-			//	printf("\n");
+		//		printf("\n");
 		//}
 		fclose(fp);
 }
