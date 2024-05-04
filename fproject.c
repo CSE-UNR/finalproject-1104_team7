@@ -13,19 +13,19 @@
 
 int getMenuChoice();
 void readFile(int rows, int columns, int photo2DArray[][columns], char *file, int *rowPtr, int* colPtr);
+void writeFile(int rows, int columns, int editedArray[][columns], char *file, int rowCount, int colCount);
 void displayImage(int rows, int columns, int photo2DArray[][columns], int rowCount, int colCount);
-void editImageMenu();
-void changeBrightness(int rows, int columns, int photo2DArray[][columns], int editedArray[][columns], int rowSize, int colSize);
-//void readFile(int rows, int columns, int photo2DArray[][columns], char *file, int rowPtr, int colPtr);
+int editImageMenu();
+void changeBrightness(int rows, int columns, int photo2DArray[][columns], int editedArray[][columns], int rowSize, int colSize, int answer);
 int main() {
 	int photo2DArray[ROWS][COLUMNS]={0};
 	int pictureArray[ROWS][COLUMNS] = {0};
-	char fileName[SIZE];
+	char fileName[SIZE],fileEditName[SIZE];
 	int brightnessArray[ROWS][COLUMNS];
 	int rowCount, colCount;
-	int userInput;
+	int userInput, userInputEdit;
 	int editedArray[ROWS][COLUMNS];
-
+	int answer;
 	do{
 	userInput = getMenuChoice();
 	switch(userInput){
@@ -33,23 +33,46 @@ int main() {
 				printf("What is the name of the image file: ");
 				scanf("%s", fileName);
 				readFile(ROWS, COLUMNS, photo2DArray, fileName, &rowCount, &colCount);
-			
-				for(int iRows = 0; iRows < rowCount; iRows++){
+				/*for(int iRows = 0; iRows < rowCount; iRows++){
 					for(int iCols = 0; iCols < colCount; iCols++){
 						pictureArray[iRows][iCols] = photo2DArray[iRows][iCols];
 						printf("%d", photo2DArray[iRows][iCols]);
 					}
-				}
-				printf("HERE");
+				}*/
 				break;
 			case 1:
 				displayImage(ROWS, COLUMNS, photo2DArray, rowCount, colCount);
 				
 				break;
 			case 2: 
-				//editImageMenu();
-				changeBrightness(ROWS, COLUMNS, photo2DArray, editedArray, rowCount, colCount);
-				displayImage(ROWS, COLUMNS, editedArray, rowCount, colCount);
+				userInputEdit = editImageMenu();
+				switch(userInputEdit){
+							case 1:
+								break;
+							case 2:	answer = 1;
+								changeBrightness(ROWS, COLUMNS, photo2DArray, editedArray, rowCount, colCount, answer);
+								displayImage(ROWS, COLUMNS, editedArray, rowCount, colCount);
+								break;
+							case 3: answer = 0;
+								changeBrightness(ROWS, COLUMNS, photo2DArray, editedArray, rowCount, colCount, answer);
+								displayImage(ROWS, COLUMNS, editedArray, rowCount, colCount);
+								break;
+							case 4:
+								break;
+							default:
+								break;
+	}
+				int editAnswer = 0;
+				printf("Would you like to save this new image to a file? (1 - Yes, 0 - No)\n");
+				scanf("%d", &editAnswer);
+				if(editAnswer == 1){
+					printf("What is the name of the image file: ");
+					scanf("%s", fileEditName);
+					writeFile(ROWS, COLUMNS, editedArray, fileEditName, rowCount, colCount);
+				}
+				else{
+				
+				}
 				break;
 			case 3: 
 				printf("Goodbye!\n");
@@ -117,8 +140,6 @@ void readFile(int rows, int columns, int photo2DArray[][columns], char *file, in
 		}
 		*rowPtr = iRows;
 		*colPtr = colCount;
-		printf("%d\n", colCount);
-		printf("%d\n", iRows);
 		fclose(fp);
 		
 		FILE* fptr; 
@@ -153,6 +174,7 @@ void readFile(int rows, int columns, int photo2DArray[][columns], char *file, in
 
 		}
 		fclose(fptr);
+		printf("Image has been succesfully loaded!\n");
 }
 
 void displayImage(int rows, int columns, int photo2DArray[][columns], int rowCount, int colCount){
@@ -163,16 +185,16 @@ void displayImage(int rows, int columns, int photo2DArray[][columns], int rowCou
 			if (photo2DArray[iRows][iCols] == 0){
 				brightnessArray[iRows][iCols] = ' ';
 			}
-			else if (photo2DArray[iRows][iCols] == '1'){
+			else if (photo2DArray[iRows][iCols] == 1){
 				brightnessArray[iRows][iCols] = '.';
 			}
-			else if (photo2DArray[iRows][iCols] == '2'){
+			else if (photo2DArray[iRows][iCols] == 2){
 				brightnessArray[iRows][iCols] = 'o';
 			}
-			else if (photo2DArray[iRows][iCols] == '3'){
+			else if (photo2DArray[iRows][iCols] == 3){
 				brightnessArray[iRows][iCols] = 'O';
 			}
-			else if (photo2DArray[iRows][iCols] == '4'){
+			else if (photo2DArray[iRows][iCols] == 4){
 				brightnessArray[iRows][iCols] = '0';
 			}
 		}
@@ -190,8 +212,8 @@ void displayImage(int rows, int columns, int photo2DArray[][columns], int rowCou
 	printf("\n");
 }
 
-void editImageMenu(){
-	int userChoice;
+int editImageMenu(){
+	int userChoiceEdit;
 	
 	printf("\n**EDIT MENU**\n");
 	printf("1. Crop image\n");
@@ -200,33 +222,19 @@ void editImageMenu(){
 	printf("4. Rotate image\n");
 	
 	printf("Enter your choice: ");
-	scanf("%d", &userChoice);
+	scanf("%d", &userChoiceEdit);
 	
-	switch(userChoice){
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3: 
-			break;
-		case 4:
-			break;
-		default:
-			break;
-	}	
+	return userChoiceEdit;	
 }
 
-void changeBrightness(int rows, int columns, int photo2DArray[][columns], int editedArray[][columns], int rowCount, int colCount){
+void changeBrightness(int rows, int columns, int photo2DArray[][columns], int editedArray[][columns], int rowCount, int colCount, int answer){
 	int inFuncArray[ROWS][COLUMNS];
-	int answer;
 	for(int iRows = 0; iRows < rowCount; iRows++){
 		for(int iCols = 0; iCols < colCount; iCols++){
 			editedArray[iRows][iCols] = photo2DArray[iRows][iCols];
 		}
 	}
 	
-	printf("Would you like to dim or brighten this image (1 = dim, 0 = brighten):");
-	scanf("%d", &answer);
 	if (answer == 1){
 		for(int iRows = 0; iRows < rowCount; iRows++){
 				for(int iCols = 0; iCols < colCount; iCols++){
@@ -270,5 +278,25 @@ void changeBrightness(int rows, int columns, int photo2DArray[][columns], int ed
 			}
 	}
 }
-	
+void writeFile(int rows, int columns, int editedArray[][columns], char *fileEdit, int rowCount, int colCount){ 
+		FILE* fp; 
+		fp = fopen(fileEdit, "w");
+		if (fp == NULL){
+			printf("File did not open\n");
+		}
+		else{
+			for(int iRows = 0; iRows < rowCount; iRows++){
+				for(int iCols = 0; iCols < colCount; iCols++){
+					fprintf(fp, "%d", editedArray[iRows][iCols]);	
+				}
+				fprintf(fp,"\n");
+			}
+			fprintf(fp,"\n");
+			
+			
+		}
+		fclose(fp);
+
+}
+
 
