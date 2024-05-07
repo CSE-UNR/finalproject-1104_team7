@@ -42,7 +42,11 @@ int main() {
 			case 3: 
 				userInputEdit = editImageMenu();
 				switch(userInputEdit){
-					case 1:
+					case 1:	printf(" 1");
+						for (int i = 0; i < colCount-2; i++){
+							printf(" ");
+						}
+						printf("%d", colCount);
 						displayImage(ROWS, COLUMNS, photo2DArray, rowCount, colCount);
 						printf("The image you would like to crop is %d x %d\n", rowCount, colCount);
 						printf("The row and column values start in the upper lefthand corner.\n\n");
@@ -73,6 +77,7 @@ int main() {
 						}
 						else{
 							printf("\n");
+							getMenuChoice();	
 						}
 						break;
 					case 2:	
@@ -88,6 +93,9 @@ int main() {
 							scanf("%s", fileEditName);
 							writeFile(ROWS, COLUMNS, editedArray, fileEditName, rowCount, colCount);
 						}
+						else{
+							getMenuChoice();	
+						}
 						break;
 					case 3: 
 						answer = 0;
@@ -101,8 +109,15 @@ int main() {
 							scanf("%s", fileEditName);
 							writeFile(ROWS, COLUMNS, editedArray, fileEditName, rowCount, colCount);
 						}
+						else{
+							getMenuChoice();	
+						}
 						break;
 					case 4:
+						
+						break;
+					case 0:
+											
 						break;
 					default:
 						break;
@@ -152,59 +167,44 @@ void readFile(int rows, int columns, int photo2DArray[][columns], char *file, in
 	}
 	else{
 		while(fscanf(fp,"%c", &test) == 1){
-				if(test != '\n'){
-					inFuncArray[iRows][iCols] = test;	
-				}
-				else if(test == '\n'){
-					iRows++;
-					colCount = iCols-1;
-					iCols = -1;
-				}
-				iCols++;	
+			if(test != '\n'){
+				inFuncArray[iRows][iCols] = test;	
 			}
-			rowCount = iRows;
-			colSize = colCount;
+			else if(test == '\n'){
+				iRows++;
+				colCount = iCols-1;
+				iCols = -1;
+			}
+			iCols++;	
 		}
-		*rowPtr = iRows;
-		*colPtr = colCount+1;
-		fclose(fp);
-		
-		
-		
-		
-			for(int inRows = 0; inRows < rowCount; inRows++){
-					for(int iCols = 0; iCols < colSize-1; iCols++){
-						if (inFuncArray[inRows][iCols] == '0'){
-							photo2DArray[inRows][iCols] = 0;
-						}
-						else if (inFuncArray[inRows][iCols] == '1'){
-							photo2DArray[inRows][iCols] = 1;
-						}
-						else if (inFuncArray[inRows][iCols] == '2'){
-							photo2DArray[inRows][iCols] = 2;
-						}
-						else if (inFuncArray[inRows][iCols] == '3'){
-							photo2DArray[inRows][iCols] = 3;
-						}
-						else if (inFuncArray[inRows][iCols] == '4'){
-							photo2DArray[inRows][iCols] = 4;
-						}
-						else{
-							photo2DArray[inRows][iCols] = 9;
-						}
-						}
-					}
+		rowCount = iRows;
+		colSize = colCount;
+	}
+	*rowPtr = iRows;
+	*colPtr = colCount+1;
+	fclose(fp);
 			
-		for(int inRows = 0; inRows < rowCount; inRows++){
-					for(int iCols = 0; iCols < colSize+1; iCols++){
-						printf("%c", inFuncArray[inRows][iCols]);
-			
-				}
-				printf("\n");
-				
+	for(int inRows = 0; inRows < rowCount; inRows++){
+		for(int iCols = 0; iCols < colSize-1; iCols++){
+			if (inFuncArray[inRows][iCols] == '0'){
+				photo2DArray[inRows][iCols] = 0;
+			}
+			else if (inFuncArray[inRows][iCols] == '1'){
+				photo2DArray[inRows][iCols] = 1;
+			}
+			else if (inFuncArray[inRows][iCols] == '2'){
+				photo2DArray[inRows][iCols] = 2;
+			}
+			else if (inFuncArray[inRows][iCols] == '3'){
+				photo2DArray[inRows][iCols] = 3;
+			}
+			else if (inFuncArray[inRows][iCols] == '4'){
+				photo2DArray[inRows][iCols] = 4;
+			}
 		}
+	}
 
-		printf("\nImage succesfully loaded!\n\n");
+	printf("\nImage succesfully loaded!\n\n");
 }
 
 void displayImage(int rows, int columns, int photo2DArray[][columns], int rowCount, int colCount){
@@ -230,13 +230,11 @@ void displayImage(int rows, int columns, int photo2DArray[][columns], int rowCou
 		}
 		
 	}
-	
 	printf("\n");
 	for(int iRows = 0; iRows < rowCount; iRows++){
 		for(int iCols = 0; iCols < colCount; iCols++){
-		printf("%c", brightnessArray[iRows][iCols]);
+			printf("%c", brightnessArray[iRows][iCols]);
 		}
-		
 		printf("\n");
 	}	
 	printf("\n");
@@ -268,66 +266,66 @@ void changeBrightness(int rows, int columns, int photo2DArray[][columns], int ed
 	
 	if (answer == 1){
 		for(int iRows = 0; iRows < rowCount; iRows++){
-				for(int iCols = 0; iCols < colCount; iCols++){
-					if (photo2DArray[iRows][iCols] == 0){
-						editedArray[iRows][iCols] = 0;
-					}
-					else if (photo2DArray[iRows][iCols] == 1){
-						editedArray[iRows][iCols] = 0;
-					}
-					else if (photo2DArray[iRows][iCols] == 2){
-						editedArray[iRows][iCols] = 1;
-					}
-					else if (photo2DArray[iRows][iCols] == 3){
-						editedArray[iRows][iCols] = 2;
-					}
-					else if (photo2DArray[iRows][iCols] == 4){
-						editedArray[iRows][iCols] = 3;
-					}
+			for(int iCols = 0; iCols < colCount; iCols++){
+				if (photo2DArray[iRows][iCols] == 0){
+					editedArray[iRows][iCols] = 0;
+				}
+				else if (photo2DArray[iRows][iCols] == 1){
+					editedArray[iRows][iCols] = 0;
+				}
+				else if (photo2DArray[iRows][iCols] == 2){
+					editedArray[iRows][iCols] = 1;
+				}
+				else if (photo2DArray[iRows][iCols] == 3){
+					editedArray[iRows][iCols] = 2;
+				}
+				else if (photo2DArray[iRows][iCols] == 4){
+					editedArray[iRows][iCols] = 3;
 				}
 			}
+		}
 	}
 	else{
 		for(int iRows = 0; iRows < rowCount; iRows++){
-				for(int iCols = 0; iCols < colCount; iCols++){
-					if (photo2DArray[iRows][iCols] == 0){
-						editedArray[iRows][iCols] = 1;
-					}
-					else if (photo2DArray[iRows][iCols] == 1){
-						editedArray[iRows][iCols] = 2;
-					}
-					else if (photo2DArray[iRows][iCols] == 2){
-						editedArray[iRows][iCols] = 3;
-					}
-					else if (photo2DArray[iRows][iCols] == 3){
-						editedArray[iRows][iCols] = 4;
-					}
-					else if (photo2DArray[iRows][iCols] == 4){
-						editedArray[iRows][iCols] = 4;
-					}
+			for(int iCols = 0; iCols < colCount; iCols++){
+				if (photo2DArray[iRows][iCols] == 0){
+					editedArray[iRows][iCols] = 1;
+				}
+				else if (photo2DArray[iRows][iCols] == 1){
+					editedArray[iRows][iCols] = 2;
+				}
+				else if (photo2DArray[iRows][iCols] == 2){
+					editedArray[iRows][iCols] = 3;
+				}
+				else if (photo2DArray[iRows][iCols] == 3){
+					editedArray[iRows][iCols] = 4;
+				}
+				else if (photo2DArray[iRows][iCols] == 4){
+					editedArray[iRows][iCols] = 4;
 				}
 			}
+		}
 	}
 }
 
 void writeFile(int rows, int columns, int editedArray[][columns], char *fileEdit, int rowCount, int colCount){ 
-		FILE* fp; 
-		fp = fopen(fileEdit, "w");
-		if (fp == NULL){
-			printf("File did not open\n");
-		}
-		else{
-			for(int iRows = 0; iRows < rowCount; iRows++){
-				for(int iCols = 0; iCols < colCount; iCols++){
-					fprintf(fp, "%d", editedArray[iRows][iCols]);	
-				}
-				fprintf(fp,"\n");
+	FILE* fp; 
+	fp = fopen(fileEdit, "w");
+	if (fp == NULL){
+		printf("File did not open\n");
+	}
+	else{
+		for(int iRows = 0; iRows < rowCount; iRows++){
+			for(int iCols = 0; iCols < colCount; iCols++){
+				fprintf(fp, "%d", editedArray[iRows][iCols]);	
 			}
 			fprintf(fp,"\n");
-				
 		}
-		fclose(fp);
-		printf("\nImage successfully saved!\n\n");
+		fprintf(fp,"\n");
+				
+	}
+	fclose(fp);
+	printf("\nImage successfully saved!\n\n");
 }
 
 void cropImage(int photo2DArray[][COLUMNS], int editedArray[][COLUMNS], int startRow, int startCol, int endRow, int endCol){
