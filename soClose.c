@@ -43,7 +43,7 @@ int main() {
 				userInputEdit = editImageMenu();
 				switch(userInputEdit){
 					case 1:	printf(" 1");
-						for (int i = 0; i < colCount-2; i++){
+						for (int i = 0; i < colCount - 2; i++){
 							printf(" ");
 						}
 						printf("%d", colCount);
@@ -53,28 +53,28 @@ int main() {
 						 
 						printf("Which column do you want to be the new left side? ");
 						scanf("%d", &startCol);
-						while(startCol < 1 || startCol > colCount){
+						while(startCol < 1 || startCol >= colCount){
 							printf("Invalid column value. Choose a value between 1 and %d: ", colCount - 1);
 							scanf("%d", &startCol);
 						}
 						
 						printf("\nWhich column do you want to be the new right side? ");
 						scanf("%d", &endCol);
-						while(endCol < startCol || endCol > colCount){
+						while(endCol < startCol || endCol >= colCount){
 							printf("Invalid column value. Choose a value between %d and %d: ", startCol, colCount - 1);
 							scanf("%d", &endCol);
 						}
 						
 						printf("\nWhich row do you want to be the new top? ");
 						scanf("%d", &startRow);
-						while(startRow < 1 || startRow > rowCount){
+						while(startRow < 1 || startRow >= rowCount){
 							printf("Invalid row value. Choose a value between 1 and %d: ", rowCount - 1);
 							scanf("%d", &startRow);
 						}
 						
 						printf("\nWhich row do you want to be the new bottom? ");
 						scanf("%d", &endRow);
-						while(endRow < startRow || endRow > rowCount){
+						while(endRow < startRow || endRow >= rowCount){
 							printf("Invalid row value. Choose a value between %d and %d: ", startRow, rowCount - 1);
 							scanf("%d", &endRow);
 						}
@@ -106,10 +106,11 @@ int main() {
 						
 						break;
 					case 0:
+						printf("\n");
 											
 						break;
 					default:
-						printf("\nInvalid option, please try again.\n");
+						printf("\nInvalid option, please try again.\n\n");
 						
 						break;
 				}
@@ -121,7 +122,7 @@ int main() {
 				break;
 			
 			default:
-				printf("\nInvalid option, please try again.\n");
+				printf("\nInvalid option, please try again.\n\n");
 				
 				break;
 		}	
