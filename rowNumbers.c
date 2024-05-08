@@ -19,14 +19,11 @@ void rowAndColumnDisplay();
 
 int main() {
 	int photo2DArray[ROWS][COLUMNS]={0};
-	int pictureArray[ROWS][COLUMNS] = {0};
 	char fileName[SIZE];
-	int brightnessArray[ROWS][COLUMNS];
 	int rowCount, colCount;
 	int userInput, userInputEdit;
 	int editedArray[ROWS][COLUMNS];
 	int answer, startRow, endRow, startCol, endCol;
-	int rotatedImageArray[COLUMNS][ROWS];
 	
 	do{
 		userInput = getMenuChoice();
@@ -97,9 +94,6 @@ int main() {
 						changeBrightness(ROWS, COLUMNS, photo2DArray, editedArray, rowCount, colCount, answer);
 						displayImage(ROWS, COLUMNS, editedArray, rowCount, colCount);
 						writeFile(ROWS, COLUMNS, editedArray, rowCount, colCount);
-						
-						break;
-					case 4:
 						
 						break;
 					case 0:
@@ -235,7 +229,6 @@ int editImageMenu(){
 	printf("1. Crop image\n");
 	printf("2. Dim image\n");
 	printf("3. Brighten image\n");
-	printf("4. Rotate image\n");
 	printf("0. Return to main menu\n");
 	
 	printf("\nChoose from one of the options above: ");
