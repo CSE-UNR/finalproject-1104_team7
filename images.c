@@ -1,5 +1,5 @@
 //Authors: Andrew Huck and Bella Picasso-Kennedy
-//Purpose: Final Project
+//Purpose: Final Project!!
 //Class: CS 135-1104
 
 #define SIZE 100
@@ -10,12 +10,12 @@
 
 int getMenuChoice();
 void readFile(int rows, int columns, int photo2DArray[][columns], char *file, int *rowPtr, int* colPtr);
-void writeFile(int rows, int columns, int editedArray[][columns], int rowCount, int colCount);
 void displayImage(int rows, int columns, int photo2DArray[][columns], int rowCount, int colCount);
 int editImageMenu();
 void changeBrightness(int rows, int columns, int photo2DArray[][columns], int editedArray[][columns], int rowSize, int colSize, int answer);
-void cropImage(int photo2DArray[][COLUMNS], int editedArray[][COLUMNS], int startRow, int startCol, int endRow, int endCol);
-void rowAndColumnDisplay();
+void writeFile(int rows, int columns, int editedArray[][columns], int rowCount, int colCount);
+void cropImage(int columns, int photo2DArray[][columns], int editedArray[][columns], int startRow, int startCol, int endRow, int endCol);
+void rowAndColumnDisplay(int rows, int columns, int photo2DArray[][columns], int rowCount, int colCount);
 
 int main() {
 	int photo2DArray[ROWS][COLUMNS]={0};
@@ -77,7 +77,7 @@ int main() {
 						int cropCol = endCol - startCol + 1;
 						int editedArray[ROWS][COLUMNS];
 						
-						cropImage(photo2DArray, editedArray, startRow, startCol, endRow, endCol);
+						cropImage(COLUMNS, photo2DArray, editedArray, startRow, startCol, endRow, endCol);
 						displayImage(ROWS, COLUMNS, editedArray, cropRow, cropCol);
 						writeFile(ROWS, COLUMNS, editedArray, cropRow, cropCol);
 						
@@ -321,7 +321,7 @@ void writeFile(int rows, int columns, int editedArray[][columns], int rowCount, 
 	}
 }
 
-void cropImage(int photo2DArray[][COLUMNS], int editedArray[][COLUMNS], int startRow, int startCol, int endRow, int endCol){
+void cropImage(int columns, int photo2DArray[][columns], int editedArray[][columns], int startRow, int startCol, int endRow, int endCol){
 	for(int i = startRow - 1; i < endRow; i++){
 		for(int j = startCol - 1; j < endCol; j++){
 			editedArray[i - startRow + 1][j - startCol + 1] = photo2DArray[i][j];
